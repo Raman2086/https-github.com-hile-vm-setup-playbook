@@ -1,0 +1,15 @@
+
+# Silly old stuff
+case "$TERM" in
+  xterm-debian)
+  	TERM=xterm
+    ;;
+esac
+export TERM
+
+[ -r $HOME/.bashrc ] && . $HOME/.bashrc
+
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*

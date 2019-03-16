@@ -1,0 +1,31 @@
+
+# Sensu application roles
+sensu_master: false
+sensu_agent: false
+
+sensu:
+  transport: redis
+
+# Python 3 versions to add to centos 7
+python:
+  version: 36
+  link_version: 3.6
+
+# Packages to install in centos 7
+packages:
+  - ansible
+  - git
+  - net-tools
+  - pass
+  - rsync
+  - vim
+
+# Users to create
+users:
+  - name: hile
+    comment: Ilkka Tuohela
+    uid: 1085
+    home: /home/hile
+    groups:
+      - wheel
+    ssh_public_key: ~/.ssh/id_rsa.pub

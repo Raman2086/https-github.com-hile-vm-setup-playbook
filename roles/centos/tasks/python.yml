@@ -1,0 +1,16 @@
+
+- name: add python and pip
+  yum:
+    state: present
+    name:
+    - "python{{python.version}}"
+    - "python{{python.version}}-pip"
+
+- name: add symlink for python3 and pip3
+  file:
+    state: link
+    path: "/usr/bin/{{item}}3"
+    src: "/usr/bin/{{item}}{{python.link_version}}"
+  with_items:
+    - python
+    - pip

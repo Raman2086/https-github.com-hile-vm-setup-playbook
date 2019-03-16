@@ -1,0 +1,24 @@
+
+- name: configure /etc/sudoers.d/wheel
+  template:
+    src: sudoers/wheel.j2
+    dest: /etc/sudoers.d/wheel
+    mode: 0440
+    owner: root
+    group: root
+
+- name: disable SSH password authentication
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^PasswordAuthentication .*'
+    line: 'PasswordAuthentication no'
+  notify:
+  - restart sshd
+
+- name: disable SSHroot logins
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^PermitRootLogin .*'
+    line: 'PermitRootLogin no'
+  notify:
+  - restart sshd
