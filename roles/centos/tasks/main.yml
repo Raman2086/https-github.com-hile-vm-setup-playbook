@@ -19,8 +19,25 @@
     state: present
     name: "{{packages}}"
 
+- import_tasks: node.yml
+  tags: node
+  when: '"node" in roles'
+
+- import_tasks: postgresql.yml
+  tags: postgresql
+  when: '"postgresql" in roles'
+
 - import_tasks: python.yml
   tags: python
+  when: '"python" in roles'
+
+- import_tasks: sensu.yml
+  tags: sensu
+  when: '"sensu" in roles'
+
+- import_tasks: yarn.yml
+  tags: yarn
+  when: '"yarn" in roles'
 
 - import_tasks: security.yml
-  tags: python
+  tags: security

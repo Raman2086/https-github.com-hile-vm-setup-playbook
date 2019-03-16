@@ -1,10 +1,29 @@
 
-# Sensu application roles
-sensu_master: false
-sensu_agent: false
+# Roles to configure
+roles:
+  - postgresql
+  - python
+  - node
+  - sensu
+  - yarn
 
+# Sensu
 sensu:
+  agent: false
+  master: false
   transport: redis
+
+# Postgresql
+postgresql:
+  version: 11
+  repository: https://download.postgresql.org/pub/repos/yum/11/redhat/rhel-7-x86_64/pgdg-centos11-11-2.noarch.rpm
+  client: yes
+  devel: yes
+  server: yes
+
+# Node versions
+node:
+  repository: https://rpm.nodesource.com/pub_10.x/el/7/x86_64/nodesource-release-el7-1.noarch.rpm
 
 # Python 3 versions to add to centos 7
 python:

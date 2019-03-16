@@ -1,10 +1,11 @@
 
-- name: add python and pip
+- name: add python packages
   yum:
     state: present
     name:
     - "python{{python.version}}"
     - "python{{python.version}}-pip"
+    - "python{{python.version}}-virtualenv"
 
 - name: add symlink for python3 and pip3
   file:

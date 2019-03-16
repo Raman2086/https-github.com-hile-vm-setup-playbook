@@ -1,7 +1,5 @@
 
 - hosts: virtualmachines
-  user: root
   roles:
   - centos
   - accounts
-  - sensu

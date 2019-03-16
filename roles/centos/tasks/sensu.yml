@@ -7,7 +7,7 @@
     baseurl: https://sensu.global.ssl.fastly.net/yum/$releasever/$basearch/
     gpgkey: https://repositories.sensuapp.org/yum/pubkey.gpg
     gpgcheck: yes
-  when: sensu_master
+  when: sensu.master
 
 - name: Install Uchiwa dashboard repo
   yum_repository:
@@ -16,20 +16,20 @@
     file: sensu
     baseurl: https://sensu.global.ssl.fastly.net/yum/$releasever/$basearch/
     gpgcheck: no
-  when: sensu_master
+  when: sensu.master
 
 - name: Install redis
   yum:
     state: present
     name: redis
-  when: sensu_master and sensu.transport == 'redis'
+  when: sensu.master and sensu.transport == 'redis'
 
 - name: enable redis for sensu
   service:
     name: redis
     enabled: yes
     state: started
-  when: sensu_master and sensu.transport == 'redis'
+  when: sensu.master and sensu.transport == 'redis'
 
 - name: Install sensu
   yum:
@@ -37,7 +37,7 @@
     name:
       - sensu
       - uchiwa
-  when: sensu_master
+  when: sensu.master
 
 - name: configure /etc/sensu configuration files
   template:
@@ -46,6 +46,7 @@
     mode: 0644
     owner: sensu
     group: sensu
+  when: sensu.master
   with_items:
     - uchiwa.json
     - conf.d/api.json
@@ -60,11 +61,11 @@
     name: "{{item}}"
     enabled: yes
     state: started
+  when: sensu.master
   with_items:
     - sensu-server
     - sensu-client
     - uchiwa
-  when: sensu_master
 
 - name: Install Sensu Stable repo
   yum_repository:
@@ -73,11 +74,11 @@
     file: sensu
     baseurl: https://packagecloud.io/sensu/stable/el/7/$basearch
     gpgcheck: no
-  when: sensu_agent
+  when: sensu.agent
 
 - name: Install sensu-go-agent
   yum:
     state: present
     name:
       - sensu-go-agent
-  when: sensu_agent
+  when: sensu.agent

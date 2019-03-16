@@ -1,0 +1,13 @@
+
+- name: Install nodesource repo
+  yum:
+    state: present
+    name: "{{node.repository}}"
+
+- name: Install node
+  yum:
+    state: present
+    name:
+      - nodejs
+
+

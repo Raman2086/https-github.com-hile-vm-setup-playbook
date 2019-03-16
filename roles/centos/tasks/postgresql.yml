@@ -1,0 +1,48 @@
+
+- name: Install postgresql 11 repo
+  yum:
+    state: present
+    name: "{{postgresql.repository}}"
+
+- name: Install postgresql client
+  yum:
+    state: present
+    name:
+    - postgresql11
+  when: postgresql.client
+
+- name: Install postgresql development packages
+  yum:
+    state: present
+    name:
+    - postgresql11-devel
+  when: postgresql.devel
+
+- name: Install postgresql server
+  yum:
+    state: present
+    name:
+    - postgresql11-server
+  when: postgresql.server
+
+- name: check for postgresql database configuration
+  stat:
+    path: "/var/lib/pgsql/{{postgresql.version}}/data/postgresql.conf"
+  register: postgresql_config
+
+- name: create postgresql database
+  command: "/usr/pgsql-{{postgresql.version}}/bin/postgresql-{{postgresql.version}}-setup initdb"
+  when: postgresql.server and postgresql_config.stat.exists == False
+  notify:
+  - restart postgresql
+
+- name: check for postgresql database configuration
+  stat:
+    path: "/var/lib/pgsql/{{postgresql.version}}}/data/postgresql.conf"
+  register: postgresql_config
+
+- name: enable postgresql service
+  service:
+    name: "postgresql-{{postgresql.version}}"
+    enabled: yes
+  when: postgresql.server and postgresql_config.stat.exists == True
