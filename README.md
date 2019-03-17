@@ -45,3 +45,7 @@ For detailed instructions see:
 
 https://cloud.google.com/compute/docs/instances/managing-instance-access
 
+After SSH access is working, run:
+
+    ansible-playbook gcp.yml --become
+
