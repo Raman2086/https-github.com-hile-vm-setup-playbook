@@ -1,15 +1,8 @@
 
-# Users to create
-users:
-  - name: hile
-    comment: Ilkka Tuohela
-    uid: 1085
-    home: /home/hile
-    groups:
-      - wheel
-    ssh_public_key: ~/.ssh/id_rsa.pub
+# Override in host / group specific config
+users: []
 
-# Firewalld configuration
+# Firewalld configuration. Override in host specific file
 firewalld:
   public_interfaces: []
   trusted_interfaces: []

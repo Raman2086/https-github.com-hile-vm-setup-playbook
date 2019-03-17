@@ -1,13 +1,6 @@
 
-- name: set hostname
-  hostname:
-    name: "{{hostname}}"
-
 - import_tasks: packages.yml
   tags: packages
-
-- import_tasks: accounts.yml
-  tags: accounts
 
 - import_tasks: docker.yml
   tags: docker

@@ -1,0 +1,24 @@
+
+- name: install postgresql client
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - postgresql-client
+  when: postgresql.server
+
+- name: install postgresql developer libraries
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - libpq-dev
+  when: postgresql.devel
+
+- name: install postgresql server
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - postgresql-9.6
+  when: postgresql.client

@@ -1,0 +1,24 @@
+
+- name: upgrade system
+  apt:
+    upgrade: safe
+    update_cache: yes
+
+- name: install packages
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - ansible
+    - aptitude
+    - apt-transport-https
+    - ca-certificates
+    - gnupg2
+    - less
+    - software-properties-common
+    - vim
+
+- name: switch default editor to vim
+  alternatives:
+    name: editor
+    path: /usr/bin/vim

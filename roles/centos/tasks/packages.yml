@@ -1,0 +1,16 @@
+
+- name: add ssh key for root
+  authorized_key:
+    user: root
+    state: present
+    key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+- name: add epel repository
+  yum:
+    state: present
+    name: epel-release
+
+- name: add common packages
+  yum:
+    state: present
+    name: "{{packages}}"

@@ -1,0 +1,6 @@
+
+- hosts: gcp
+  roles:
+  - gcp
+  - debian
+  - accounts

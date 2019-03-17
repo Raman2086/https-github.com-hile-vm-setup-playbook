@@ -1,0 +1,15 @@
+
+- name: create users
+  user:
+    name: "{{item.name}}"
+    comment: "{{item.comment}}"
+    uid: "{{item.uid}}"
+    groups: "{{item.groups}}"
+  with_items: "{{ users }}"
+
+- name: configure ssh key for user
+  authorized_key:
+    user: "{{item.name}}"
+    state: present
+    key: "{{ lookup('file', item.ssh_public_key) }}"
+  with_items: "{{ users }}"
