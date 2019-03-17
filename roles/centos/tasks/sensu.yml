@@ -39,46 +39,15 @@
       - uchiwa
   when: sensu.master
 
-- name: configure /etc/sensu configuration files
-  template:
-    src: "sensu/{{item}}.j2"
-    dest: "/etc/sensu/{{item}}"
-    mode: 0644
-    owner: sensu
-    group: sensu
-  when: sensu.master
-  with_items:
-    - uchiwa.json
-    - conf.d/api.json
-    - conf.d/client.json
-    - conf.d/transport.json
-  notify:
-    - restart sensu-server
-    - restart sensu-client
-
-- name: enable sensu services
-  service:
-    name: "{{item}}"
-    enabled: yes
-    state: started
-  when: sensu.master
-  with_items:
-    - sensu-server
-    - sensu-client
-    - uchiwa
-
-- name: Install Sensu Stable repo
-  yum_repository:
-    name: sensu_stable
-    description: Sensu stable repo
-    file: sensu
-    baseurl: https://packagecloud.io/sensu/stable/el/7/$basearch
-    gpgcheck: no
-  when: sensu.agent
-
 - name: Install sensu-go-agent
   yum:
     state: present
     name:
       - sensu-go-agent
   when: sensu.agent
+
+- name: allow uchiwa access in firewall
+  firewalld:
+    port: 3000/tcp
+    permanent: true
+    state: enabled

@@ -1,0 +1,19 @@
+
+[Unit]
+Description=Postgres database status monitor server
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=postgres
+ExecStart=/usr/local/bin/pgstatus-daemon
+KillSignal=SIGQUIT
+Type=simple
+StandardError=syslog
+NotifyAccess=all
+TimeoutSec=0
+Environment=IMPORT_LOG_LEVEL=DEBUG
+
+[Install]
+WantedBy=multi-user.target
+

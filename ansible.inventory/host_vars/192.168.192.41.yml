@@ -1,0 +1,20 @@
+
+firewalld:
+  public_interfaces:
+    - ens32
+  trusted_interfaces:
+    - ens33
+
+sensu:
+  agent: yes
+  master: yes
+  transport: redis
+
+sensu_agent:
+  name: virtualmachine.example.com
+  backend_url: ws://localhost:8081
+  entity: development
+  role: virtualmachine
+  log_level: error
+  subscriptions:
+    - virtualmachine

@@ -1,0 +1,9 @@
+
+[httpd]
+port = {{pgstatus.port}}
+
+[connection]
+dbname = '{{pgstatus.database}}'
+host = '{{pgstatus.host}}'
+{%if pgstatus.user%}user = 'myuser'{%endif%}
+{%if pgstatus.password%}password = 'myuserpassword'{%endif%}

@@ -1,4 +1,14 @@
 
+- name: restart docker
+  service:
+    name: docker
+    state: restarted
+
+- name: restart firewalld
+  service:
+    name: firewalld
+    state: restarted
+
 - name: restart postgresql
   service:
     name: "postgresql-{{postgresql.version}}"
@@ -7,14 +17,4 @@
 - name: restart sshd
   service:
     name: sshd
-    state: restarted
-
-- name: restart sensu-server
-  service:
-    name: sensu-server
-    state: restarted
-
-- name: restart sensu-client
-  service:
-    name: sensu-client
     state: restarted

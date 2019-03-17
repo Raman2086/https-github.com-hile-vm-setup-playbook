@@ -1,5 +1,6 @@
 
 - hosts: virtualmachines
   roles:
-  - centos
   - accounts
+  - centos
+  - sensu

@@ -1,17 +1,36 @@
 
+# Users to create
+users:
+  - name: hile
+    comment: Ilkka Tuohela
+    uid: 1085
+    home: /home/hile
+    groups:
+      - wheel
+    ssh_public_key: ~/.ssh/id_rsa.pub
+
+# Firewalld configuration
+firewalld:
+  public_interfaces: []
+  trusted_interfaces: []
+
 # Roles to configure
 roles:
+  - docker
+  - golang
+  - node
   - postgresql
   - python
-  - node
   - sensu
   - yarn
 
-# Sensu
-sensu:
-  agent: false
-  master: false
-  transport: redis
+# Docker
+docker:
+  repository: https://download.docker.com/linux/centos/docker-ce.repo
+
+# Go language repository
+golang:
+  repository: https://mirror.go-repo.io/centos/go-repo.repo
 
 # Postgresql
 postgresql:
@@ -21,14 +40,27 @@ postgresql:
   devel: yes
   server: yes
 
+# Pgstatus daemon
+pgstatus:
+  database: postgres
+  port: 5433
+  host:
+  user:
+  password:
+
 # Node versions
 node:
   repository: https://rpm.nodesource.com/pub_10.x/el/7/x86_64/nodesource-release-el7-1.noarch.rpm
+
+# Yarn versions
+yarn:
+  repository: https://dl.yarnpkg.com/rpm/yarn.repo
 
 # Python 3 versions to add to centos 7
 python:
   version: 36
   link_version: 3.6
+  pip: /usr/bin/pip3
 
 # Packages to install in centos 7
 packages:
@@ -39,12 +71,8 @@ packages:
   - rsync
   - vim
 
-# Users to create
-users:
-  - name: hile
-    comment: Ilkka Tuohela
-    uid: 1085
-    home: /home/hile
-    groups:
-      - wheel
-    ssh_public_key: ~/.ssh/id_rsa.pub
+# Sensu defaults. Override in host_vars
+sensu:
+  agent: false
+  master: false
+  transport: redis

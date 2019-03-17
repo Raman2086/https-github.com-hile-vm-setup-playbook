@@ -1,0 +1,48 @@
+
+- name: configure /etc/sensu configuration files
+  template:
+    src: "sensu/{{item}}.j2"
+    dest: "/etc/sensu/{{item}}"
+    mode: 0644
+    owner: sensu
+    group: sensu
+  with_items:
+    - uchiwa.json
+    - conf.d/api.json
+    - conf.d/client.json
+    - conf.d/transport.json
+  notify:
+    - restart sensu-server
+    - restart sensu-client
+    - restart uchiwa
+  when: sensu.master
+
+- name: enable sensu services
+  service:
+    name: "{{item}}"
+    enabled: yes
+    state: started
+  with_items:
+    - sensu-api
+    - sensu-server
+    - sensu-client
+    - uchiwa
+  when: sensu.master
+
+- name: Install Sensu Stable repo
+  yum_repository:
+    name: sensu_stable
+    description: Sensu stable repo
+    file: sensu
+    baseurl: https://packagecloud.io/sensu/stable/el/7/$basearch
+    gpgcheck: no
+  when: sensu.agent
+
+- name: configure sensu-go agent
+  template:
+    src: "sensu/agent.yml.j2"
+    dest: "/etc/sensu/agent.yml"
+    mode: 0644
+    owner: sensu
+    group: sensu
+  when: sensu.agent

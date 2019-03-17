@@ -1,0 +1,14 @@
+
+- name: install golang repository
+  get_url:
+    url: "{{golang.repository}}"
+    dest: /etc/yum.repos.d/golang.repo
+    mode: 0644
+    owner: root
+    group: root
+
+- name: Install golang
+  yum:
+    state: present
+    name:
+      - golang

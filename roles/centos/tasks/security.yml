@@ -22,3 +22,24 @@
     line: 'PermitRootLogin no'
   notify:
   - restart sshd
+
+- name: configure firewalld public interfaces
+  firewalld:
+    zone: public
+    interface: "{{item}}"
+    permanent: true
+    state: enabled
+  with_items: "{{firewalld.public_interfaces}}"
+
+- name: configure firewalld trusted interfaces
+  firewalld:
+    zone: trusted
+    interface: "{{item}}"
+    permanent: true
+    state: enabled
+  with_items: "{{firewalld.trusted_interfaces}}"
+
+- name: restart firewalld
+  service:
+    name: firewalld
+    state: restarted

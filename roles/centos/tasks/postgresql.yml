@@ -25,6 +25,20 @@
     - postgresql11-server
   when: postgresql.server
 
+- name: Install pgstatus agent server
+  pip:
+    name: pgstatus
+    state: latest
+    executable: "{{python.pip}}"
+  when: postgresql.server
+
+- name: Enable postgresql service
+  service:
+    name: "postgresql-{{postgresql.version}}"
+    enabled: yes
+    state: started
+  when: postgresql.server
+
 - name: check for postgresql database configuration
   stat:
     path: "/var/lib/pgsql/{{postgresql.version}}/data/postgresql.conf"
@@ -46,3 +60,24 @@
     name: "postgresql-{{postgresql.version}}"
     enabled: yes
   when: postgresql.server and postgresql_config.stat.exists == True
+
+- name: configure pgstatus service
+  template:
+    src: systemd/pgstatus.service.j2
+    dest: /etc/systemd/system/pgstatus.service
+    mode: 0644
+    owner: root
+    group: root
+
+- name: enable postgresql service
+  service:
+    name: "pgstatus"
+    enabled: yes
+    state: restarted
+  when: postgresql.server
+
+- name: allow pgstatus access in firewall
+  firewalld:
+    port: "{{pgstatus.port}}/tcp"
+    permanent: true
+    state: enabled

@@ -1,0 +1,10 @@
+---
+name: "{{sensu_agent.name}}"
+backend-url:
+  - "{{sensu.backend_url}}"
+subscriptions:
+  "{{sensu_agent.subscriptions}}"
+labels:
+  entity: "{{sensu_agent.entity}}"
+  role: "{{sensu_agent.role}}"
+log-level: "{{sensu_agent.role}}"

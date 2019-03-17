@@ -1,0 +1,25 @@
+
+- name: Install docker repo
+  get_url:
+    url: "{{docker.repository}}"
+    dest: /etc/yum.repos.d/docker.repo
+    mode: 0644
+    owner: root
+    group: root
+
+- name: add docker packages
+  yum:
+    state: present
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+  notify:
+    - restart docker
+
+- name: Enable docker service
+  service:
+    name: "docker"
+    enabled: yes
+    state: started
+  when: postgresql.server
